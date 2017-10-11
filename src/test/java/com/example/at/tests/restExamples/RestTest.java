@@ -56,7 +56,7 @@ public class RestTest {
     public void deleteAllUsers() {
         UserListResponse allUsers = applicationRestClient.getAllUsers();
         for (UserPayload singleUser : allUsers.getItems()) {
-            applicationRestClient.deleteById(singleUser.getId());
+            applicationRestClient.deleteById(singleUser);
         }
     }
 }

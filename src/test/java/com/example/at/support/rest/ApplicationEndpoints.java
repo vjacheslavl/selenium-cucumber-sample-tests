@@ -19,8 +19,8 @@ public interface ApplicationEndpoints {
     SingleUserResponse getUseById(@Param("id") String id);
 
 
-    @RequestLine("DELETE /prod/{id}")
-    void deleteById(@Param("id") String id);
+    @RequestLine("DELETE /prod")
+    void deleteById(UserPayload dto);
 
     @RequestLine("POST /prod")
     @Headers("Content-Type: application/json")
