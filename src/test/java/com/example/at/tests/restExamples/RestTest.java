@@ -1,9 +1,10 @@
 package com.example.at.tests.restExamples;
 
+import com.example.at.support.rest.ApplicationEndpoints;
+import com.example.at.support.rest.RestClient;
 import com.example.at.support.rest.dto.SingleUserResponse;
 import com.example.at.support.rest.dto.UserListResponse;
 import com.example.at.support.rest.dto.UserPayload;
-import com.example.at.tests.BaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RestTest extends BaseTest {
+public class RestTest {
+    private RestClient restClient = new RestClient();
+    private ApplicationEndpoints applicationRestClient = restClient.createClient();
 
     @Tag("DEV")
     @Tag("E2E")
@@ -43,5 +46,17 @@ public class RestTest extends BaseTest {
         SingleUserResponse foundUser = applicationRestClient.getUseById(generatedId);
         assertThat(foundUser.getItem().getId()).isEqualTo(generatedId);
         assertThat(foundUser.getItem().getFirstname()).isEqualTo("Modified Name");
+    }
+
+
+    @Tag("DEV")
+    @Tag("E2E")
+    @DisplayName("Rest Delete")
+    @Test
+    public void deleteAllUsers() {
+        UserListResponse allUsers = applicationRestClient.getAllUsers();
+        for (UserPayload singleUser : allUsers.getItems()) {
+            applicationRestClient.deleteById(singleUser.getId());
+        }
     }
 }
