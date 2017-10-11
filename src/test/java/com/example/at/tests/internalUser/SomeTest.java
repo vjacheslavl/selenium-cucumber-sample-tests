@@ -2,7 +2,6 @@ package com.example.at.tests.internalUser;
 
 import com.example.at.config.ApplicationProperties;
 import com.example.at.pageObjects.SomePage;
-import com.example.at.support.rest.dto.TermsOfUseDTO;
 import com.example.at.support.web.BrowserNavigation;
 import com.example.at.tests.BaseTest;
 import org.junit.jupiter.api.DisplayName;
@@ -20,12 +19,6 @@ public class SomeTest extends BaseTest {
     @Test
     public void saveQuoteForInternalUser() {
         String currentUser = ApplicationProperties.getString(INTERNAL_USER);
-
-        //REST endpoints usage examples
-        applicationRestClient.setCurrentUser(currentUser); //GET
-
-        TermsOfUseDTO termOfUseResponse = TermsOfUseDTO.builder().username(currentUser).termsOfUse("true").build();
-        applicationRestClient.acceptTermOfUse(termOfUseResponse); //PUT
 
         //WebDriver part example
         BrowserNavigation.openBlankQuote(); //navigation

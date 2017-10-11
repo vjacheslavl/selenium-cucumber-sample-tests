@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import feign.Feign;
-import feign.jackson.JacksonDecoder;
+import feign.gson.GsonDecoder;
 import feign.jackson.JacksonEncoder;
 import okhttp3.OkHttpClient;
 
@@ -29,8 +29,9 @@ public class RestClient {
     public ApplicationEndpoints createClient() {
         ObjectMapper mapper = createObjectMapper();
 
+
         Feign.Builder feignBuilder = Feign.builder()
-                .decoder(new JacksonDecoder(mapper))
+                .decoder(new GsonDecoder())
                 .encoder(new JacksonEncoder(mapper))
                 .requestInterceptor(new CustomRequestInterceptor()); // Interceptors allow to modify headers of REST requests
 
@@ -47,7 +48,8 @@ public class RestClient {
         return new ObjectMapper()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .configure(SerializationFeature.INDENT_OUTPUT, true)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
     }
 
 
