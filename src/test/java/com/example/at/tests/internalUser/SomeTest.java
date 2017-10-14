@@ -1,37 +1,36 @@
 package com.example.at.tests.internalUser;
 
-import com.example.at.config.ApplicationProperties;
-import com.example.at.pageObjects.SomePage;
+import com.example.at.pageObjects.SearchResultsPage;
+import com.example.at.pageObjects.ShopHomePage;
 import com.example.at.support.web.BrowserNavigation;
 import com.example.at.tests.BaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static com.example.at.config.ApplicationProperties.ApplicationProperty.INTERNAL_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SomeTest extends BaseTest {
 
     @Tag("DEV")
     @Tag("E2E")
-    @DisplayName("Product screen - save new quote")
+    @DisplayName("Automation practice - search screen")
     @Test
     public void saveQuoteForInternalUser() {
-        String currentUser = ApplicationProperties.getString(INTERNAL_USER);
+        BrowserNavigation.openHomePage();
 
-        //WebDriver part example
-        BrowserNavigation.openBlankQuote(); //navigation
+        ShopHomePage page = new ShopHomePage(); //init page object
+        assertThat(page.isPageDisplayed()).as("Home Page is not displayed").isTrue();
 
-        SomePage page = new SomePage(); //init page object
+        page.enterSearch("Blouse");
+        page.clickSearch();
 
-        assertThat(page.isPageDisplayed()).as("page is not displayed").isTrue(); //AssertJ example
+        SearchResultsPage searchResultsPage = new SearchResultsPage();
+        assertThat(searchResultsPage.isPageDisplayed()).as("Search Result page is not displayed").isTrue();
+        assertThat(searchResultsPage.getHeaderText()).contains("BLOUSE");
 
-        page.enterCompanyId("1003");
-        page.clickNext();
+        assertThat(searchResultsPage.getSearchResultWidgetsCount()).isEqualTo(1);
 
-
-
-
+        searchResultsPage.clickOnAddToCartForProduct("Blouse");
     }
 }

@@ -24,7 +24,7 @@ public class ApplicationProperties {
                     setProperty(ApplicationProperty.TARGET_BROWSER.name, "CHROME"); //PHANTOMJS, OPERA, SAFARI, EDGE, IE, CHROME, FIREFOX
 
                     //application URL's
-                    setProperty(ApplicationProperty.APP_URL.name, "http://google.com");
+                    setProperty(ApplicationProperty.APP_URL.name, "http://automationpractice.com");
                     setProperty(ApplicationProperty.SERVICE_URL.name, "https://ch7n1tyg3g.execute-api.eu-central-1.amazonaws.com");
 
                     //User settings
@@ -32,7 +32,7 @@ public class ApplicationProperties {
                     setProperty(ApplicationProperty.EXTERNAL_USER.name, "some_external_user@ctco.com");
 
                     //Proxy settings
-                    setProperty(ApplicationProperty.REST_PROXY_ENABLED.name, "true");
+                    setProperty(ApplicationProperty.REST_PROXY_ENABLED.name, "false");
                     setProperty(ApplicationProperty.BROWSER_PROXY_ENABLED.name, "false");
                     setProperty(ApplicationProperty.PROXY_HOST.name, "10.23.2.250");
                     setProperty(ApplicationProperty.PROXY_PORT.name, "8080");
