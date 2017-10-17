@@ -4,8 +4,9 @@ import com.example.at.support.rest.ApplicationEndpoints;
 import com.example.at.support.rest.RestClient;
 import com.example.at.support.rest.dto.UserListResponse;
 import com.example.at.support.rest.dto.UserPayload;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import java.util.List;
 
@@ -27,34 +28,35 @@ public class RestStepdefs {
                 user.setId(generatedId);
                 user.setFirstname(user.getFirstname() + "-" + String.valueOf(i));
                 user.setLastname(user.getLastname() + "-" + String.valueOf(i));
+                user.setExtdata("{}");
                 applicationRestClient.createUser(user);
             }
         }
     }
 
-    @Given("^user \"([^\"]*)\" is modified$")
+    @When("^user \"([^\"]*)\" is modified$")
     public void userIsModified(String userName) throws Throwable {
         UserListResponse allUsers = applicationRestClient.getAllUsers();
-        UserPayload foundUser = allUsers.getItems().stream().filter(u -> userName.equals(u.getFirstname())).findFirst().get();
+        UserPayload foundUser = allUsers.getItems().stream().filter(u -> userName.equals(u.getFirstname())).findFirst().orElseThrow(RuntimeException::new);
         foundUser.setFirstname("Modified cucumber user");
         applicationRestClient.modifyUser(foundUser);
 
 
     }
 
-    @Given("^user list size is \"([^\"]*)\"$")
+    @Then("^user list size is \"([^\"]*)\"$")
     public void userListSizeIs(int listSize) throws Throwable {
         assertThat(applicationRestClient.getAllUsers().getItems().size()).isEqualTo(listSize);
     }
 
-    @And("^user with surname \"([^\"]*)\" firstName is \"([^\"]*)\"$")
+    @Then("^user with surname \"([^\"]*)\" firstName is \"([^\"]*)\"$")
     public void userNameIs(String userSurname, String firstName) throws Throwable {
         UserListResponse allUsers = applicationRestClient.getAllUsers();
-        UserPayload foundUser = allUsers.getItems().stream().filter(u -> userSurname.equals(u.getLastname())).findFirst().get();
+        UserPayload foundUser = allUsers.getItems().stream().filter(u -> userSurname.equals(u.getLastname())).findFirst().orElseThrow(RuntimeException::new);
         assertThat(foundUser.getFirstname()).isEqualTo(firstName);
     }
 
-    @And("^all users are deleted$")
+    @When("^all users are deleted$")
     public void allUsersAreDeleted() throws Throwable {
         UserListResponse allUsers = applicationRestClient.getAllUsers();
         for (UserPayload singleUser : allUsers.getItems()) {

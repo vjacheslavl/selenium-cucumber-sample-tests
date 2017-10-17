@@ -14,9 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Hooks {
-    Logger logger = LoggerFactory.getLogger(Hooks.class);
+    private Logger logger = LoggerFactory.getLogger(Hooks.class);
 
-    @Before
+    @Before("@web")
     public void setup(Scenario scenario) throws Exception {
         DriverBase.instantiateDriverObject();
         DriverBase.getDriver().manage().window().maximize();
@@ -26,7 +26,7 @@ public class Hooks {
         logger.info("Starting Scenario: \"" + scenario.getName() + "\" with Session ID: " + sessionId);
     }
 
-    @After
+    @After("@web")
     public void tearDown(Scenario scenario) throws Exception {
         if (scenario.isFailed()) {
             try {

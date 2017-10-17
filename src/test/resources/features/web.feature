@@ -1,7 +1,7 @@
 @web
 Feature: Web
 
-  Scenario: Search for cheese
+  Scenario: Add to cart
     Given home page is opened
     And user searched for a "Blouse"
     Then Search Result page for "Blouse" is displayed
